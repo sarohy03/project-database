@@ -261,7 +261,7 @@ CREATE TABLE IF NOT EXISTS Reviews (
         )
     `;
 
-    // Execute the SQL query to create the UserSkills table
+    
     connection.query(createUserSkillsTableQuery, (err, result) => {
         if (err) {
             console.error("Error creating UserSkills table:", err);
