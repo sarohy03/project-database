@@ -1,6 +1,5 @@
 import mysql from "mysql";
 
-// Create a MySQL connection
 const connection = mysql.createConnection({
 	host: "localhost",
 	user: "root",
@@ -21,11 +20,9 @@ connection.connect((err) => {
 	const createUserTableQuery = `
         CREATE TABLE IF NOT EXISTS User (
             user_id INT AUTO_INCREMENT PRIMARY KEY,
-            username VARCHAR(50) UNIQUE,
             email VARCHAR(100) UNIQUE,
             password_hash VARCHAR(255),
-            first_name VARCHAR(50),
-            last_name VARCHAR(50),
+            name VARCHAR(50),
             user_type ENUM('client', 'freelancer'),
             profile_picture VARCHAR(255),
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -253,10 +250,10 @@ CREATE TABLE IF NOT EXISTS Reviews (
 	});
         // SQL query to create the UserSkills table
         const createUserSkillsTableQuery = `
-        CREATE TABLE IF NOT EXISTS UserSkills (
-            user_id INT,
+        CREATE TABLE IF NOT EXISTS ProfileSkills (
+            Profile_id INT,
             skill_id INT,
-            FOREIGN KEY (user_id) REFERENCES User(user_id),
+            FOREIGN KEY (Profile_id) REFERENCES UserProfiles(Profile_id),
             FOREIGN KEY (skill_id) REFERENCES Skills(skill_id)
         )
     `;
