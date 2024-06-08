@@ -20,6 +20,8 @@ connection.connect((err) => {
 	}
 	console.log("Connected to the database");
 });
+
+
 app.post("/profileSelectionType", (req, res) => {
     const { userId, userType } = req.body;
 
@@ -85,10 +87,25 @@ app.post("/login", (req, res) => {
 			return res.status(401).json("Invalid email or password");
 		}
 	});
-});
-app.post("/profileSelection", (req, res) => {
-	const MakeProfile = "Select ";
-});
+}); 
+app.post('/insertinprofile', (req, res) => {
+    const {userId,title, description, hourlyRate, address, skill } = req.body;
+  
+    if (!title || !description || !hourlyRate || !address || !skill || !userId) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+  
+    const query = 'INSERT INTO UserProfiles (user_id,title, description, hourly_rate, location, skills) VALUES (?, ?, ?, ?, ?, ?)';
+    const values = [userId,title, description, hourlyRate, address, skill ];
+  
+    connection.query(query, values, (err, result) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.status(201).json({ message: 'Profile created', profileId: result.insertId });
+    });
+  });
+
 app.post("/signup", (req, res) => {
 	const checkEmailQuery = "SELECT COUNT(*) AS count FROM user WHERE email = ?";
 	const insertUserQuery =
